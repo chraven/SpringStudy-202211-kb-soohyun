@@ -1,5 +1,7 @@
 package com.soohyun.board.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,11 @@ public class UserController {
 	@PostMapping("")
 	public ResponseDto<ResultResponseDto> postUser(@RequestBody PostUserDto requestBody) {
 		return userSerivce.postUser(requestBody);
+	}
+	
+	@GetMapping("")
+	public ResponseDto<List<GetUserResponseDto>> getAlluser() {
+		return userSerivce.getAllUser();
 	}
 	
 	//{}안에 이메일 값을 쓰면 PathVariable을 통해 "email"을 거쳐 String email에 저장된다.

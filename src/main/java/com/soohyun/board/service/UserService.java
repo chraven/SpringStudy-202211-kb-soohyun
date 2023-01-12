@@ -1,5 +1,8 @@
 package com.soohyun.board.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,17 @@ import com.soohyun.board.repository.MemberRepository;
 public class UserService {
 	
 	@Autowired MemberRepository memberRepository;
+	
+	public ResponseDto<List<GetUserResponseDto>> getAllUser() {
+		//get으로 데이터가 들어가므로 ArrayList생성할 필요 없다. findAll은 DB 전체의 데이터를 가져옴. 한 개인별 한 인덱스.
+		List<MemberEntity> memberList = memberRepository.findAll();
+		
+		List<GetUserResponseDto> data = new ArrayList<GetUserResponseDto>();
+								//GetUserResponse에는 password가 없어서 data에 그냥 나머지가 들어간다.
+		for (MemberEntity member: memberList) data.add(new GetUserResponseDto(member));
+		
+		return ResponseDto.setSuccess("Get User List Success", data);
+	}
 	
 	public ResponseDto<GetUserResponseDto> getUser(String email) {
 		// 해당 이메일을 데이터베이스에서 검색(DB에서 데이터를 GetUserResponseDto에 담는 것)
